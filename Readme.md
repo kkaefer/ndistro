@@ -72,6 +72,10 @@ or if you wish to have a clean start and re-install everything:
     module visionmedia express
     module visionmedia express 1.0.0beta2
 
+## Requiring Your Modules
+
+  When executing `./bin/node`, node will first look at `../lib/node` for modules, which means when you install modules via ndistro, you do not need to require() them relative, you may simply `require('express')` etc.
+
 ## Contributors
 
   - TJ Holowaychuk ([visionmedia](http://github.com/visionmedia))
