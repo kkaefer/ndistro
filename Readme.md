@@ -23,6 +23,7 @@ several 3rd party modules.
 	module visionmedia connect-redis
 	module visionmedia jade
 	module visionmedia ejs
+	module learnboost node-canvas 0.4.0 canvas
 
 Follow the installation step above to gain access to the _ndistro_ executable,
 and then in your distro directory that contains _.ndistro_ run:
@@ -65,13 +66,13 @@ or if you wish to have a clean start and re-install everything:
 
     node 0.1.102
 
-## module &lt;user&gt; &lt;project&gt; [version, alias]
+## module &lt;user&gt; &lt;project&gt; [version] [alias]
 	
   Installs _user_'s _project_ at the given _version_ or **HEAD**.
 
     module visionmedia express
     module visionmedia express 1.0.0beta2
-	module felixge node-formidable master formidable
+	  module felixge node-formidable master formidable
 
 ## Requiring Your Modules
 

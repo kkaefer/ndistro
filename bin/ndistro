@@ -42,7 +42,7 @@ log() {
 }
 
 #
-# Install <user> <mod> [version]
+# Install <user> <mod> [version] [version]
 #
 
 module() {
