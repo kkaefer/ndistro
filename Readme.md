@@ -65,12 +65,13 @@ or if you wish to have a clean start and re-install everything:
 
     node 0.1.102
 
-## module &lt;user&gt; &lt;project&gt; [version]
+## module &lt;user&gt; &lt;project&gt; [version, alias]
 	
   Installs _user_'s _project_ at the given _version_ or **HEAD**.
 
     module visionmedia express
     module visionmedia express 1.0.0beta2
+	module felixge node-formidable master formidable
 
 ## Requiring Your Modules
 

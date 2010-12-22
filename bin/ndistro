@@ -49,6 +49,7 @@ module() {
   local user=$1
   local mod=$2
   local version=${3-master}
+  local alias_as=$4
   local dest="$ROOT/modules/$mod"
   local url="http://github.com/$user/$mod/tarball/$version"
   if test -d $dest; then
@@ -66,7 +67,7 @@ module() {
       && cd ../.. \
       && bin $mod \
       && build $mod \
-      && lib $mod
+      && lib $mod $alias_as
   fi
 }
 
@@ -114,14 +115,26 @@ build() {
 
 lib() {
   local mod=$1
+  local alias_as=$2
+  local moddir=$mod
+  
+  if test -n "$alias_as"; then
+    moddir=$alias_as
+  fi
+  
   mkdir -p $ROOT/lib/node
   if test -f $ROOT/modules/$mod/index.js; then
     cd $ROOT/lib/node
-    ln -sf ../../modules/$mod ./$mod
+    ln -sf ../../modules/$mod ./$moddir
     cd ../..
   elif test -d $ROOT/modules/$mod/lib; then
     cd $ROOT/lib/node
-    ln -sf ../../modules/$mod/lib/* ./
+    if test "$moddir" != "$mod"; then
+      moddir="./$moddir"
+    else
+      moddir="./"
+    fi
+    ln -sf ../../modules/$mod/lib/* $moddir
     cd ../..
   fi
 }
