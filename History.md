@@ -1,4 +1,11 @@
 
+0.3.0 / 2010-12-22 
+==================
+
+  * Added the ability to alias module symlinks [Chris Gutierrez]
+    For example modules such as node-formidable or node-canvas
+    can be aliased as 'formidable' and 'canvas' for clean require()s
+
 0.2.0 / 2010-11-11 
 ==================
 

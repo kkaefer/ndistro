@@ -83,6 +83,7 @@ or if you wish to have a clean start and re-install everything:
   - TJ Holowaychuk ([visionmedia](http://github.com/visionmedia))
   - Vladimir Dronnikov ([dvv](http://github.com/dvv))
   - Eric Clemmons ([ericclemmons](http://github.com/ericclemmons))
+  - Chris Gutierrez
 
 ## License
 
