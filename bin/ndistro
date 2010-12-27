@@ -146,9 +146,36 @@ lib() {
 install_node() {
   local version=$1
   local machine=$2
-  local url="$BIN_URL/$version-$machine"
-  log "installing node-$version-$machine"
-  $GET $url > bin/node && chmod 0755 bin/node
+  local binary=~/.ndistro/node-$version-$machine
+
+  # check if binary exists, otherwise download it:
+  if ! test -f $binary; then
+    local url="$BIN_URL/$version-$machine"
+
+    if [ $($GET $url -I -w %{http_code} --silent -o /dev/null) = "200" ]; then
+      log "downloading node-$version-$machine" && \
+      $GET $url > $binary
+    else
+      # download the source code and compile it.
+      local url="http://nodejs.org/dist/node-v$1.tar.gz"
+      local start=$(pwd)
+      mkdir -p ~/.ndistro/src-node-$version-$machine && \
+      cd ~/.ndistro/src-node-$version-$machine && \
+      log "fetching node $1" && \
+      $GET $url | tar -xz --strip 1 && \
+      log "configuring node $version" && \
+      ./configure 1> /dev/null 2> /dev/null && \
+      log "compiling node $version" && \
+      make 1> /dev/null && \
+      log "built node $1" && \
+      cp build/default/node $binary && \
+      rm -rf ~/.ndistro/src-node-$version-$machine
+      cd $start
+    fi
+  fi
+
+  cp $binary bin/node && \
+  chmod 0755 bin/node
 }
 
 #
@@ -182,7 +209,7 @@ node() {
       if test "$version" = "v$1"; then
         log "already installed node $1"
       else
-        log "updating from node $version"
+        log "updating node from $version to $1"
         install_node $1 $machine
       fi
     else
