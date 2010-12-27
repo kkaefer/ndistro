@@ -55,11 +55,11 @@ module() {
   local url="https://github.com/$user/$mod/tarball/$version"
   
   if test -d $dest; then
-    if test -f $version_file; then
-      if [ "$version" = "master" ]; then
-        log "outdated module $mod (master may have changed)"
-        log " ==> run rm -rf modules/$mod and re-run ndistro to update"
-      elif [ "$(cat $version_file)" != "$version" ]; then
+    if test "$version" = "master"; then
+      log "outdated module $mod (master may have changed)"
+      log " ==> run rm -rf modules/$mod and re-run ndistro to update"
+    elif test -f $version_file; then
+      if test "$(cat $version_file)" != "$version"; then
         log "outdated module $mod $(cat $version_file) (requested is $version)"
         log " ==> run rm -rf modules/$mod and re-run ndistro to update"
       else
