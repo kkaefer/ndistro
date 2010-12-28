@@ -47,7 +47,6 @@ log() {
 #
 
 http_code() {
-  local result=
   if test "$GET_CMD" = "curl"; then
     return $(curl -L -I -w %{http_code} --silent -o /dev/null "$1")
   else
