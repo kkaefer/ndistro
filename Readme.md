@@ -7,7 +7,13 @@ depending on large programs. To contribute a node binary head over to [nodes](ht
 
 ## Installation
 
+curl:
+
      $ cd /usr/local/bin && curl https://github.com/visionmedia/ndistro/raw/master/install | sh
+
+npm:
+
+    $ npm install ndistro
 
 ## Example distribution
 
@@ -83,6 +89,7 @@ or if you wish to have a clean start and re-install everything:
   - TJ Holowaychuk ([visionmedia](http://github.com/visionmedia))
   - Vladimir Dronnikov ([dvv](http://github.com/dvv))
   - Eric Clemmons ([ericclemmons](http://github.com/ericclemmons))
+  - Konstantin Käfer
   - Chris Gutierrez
 
 ## License

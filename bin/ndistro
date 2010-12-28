@@ -9,7 +9,7 @@
 
 # Library version
 
-VERSION="0.3.0"
+VERSION="0.4.0"
 DIR=${0%/*}
 ROOT=$(pwd)
 BIN_URL="http://github.com/visionmedia/nodes/raw/master"
@@ -65,15 +65,24 @@ module() {
   local version=${3-master}
   local alias_as=$4
   local dest="$ROOT/modules/$mod"
-  local url="http://github.com/$user/$mod/tarball/$version"
+  local version_file=$dest/.ndistro_module_version
+  local url="https://github.com/$user/$mod/tarball/$version"
+  local update_message="update with $ rm -fr modules/$mod && ndistro"
+  
   if test -d $dest; then
-    log "already installed $mod"
-  else
-    if test "$version" = "master"; then
-      log "installing $mod"
-    else
-      log "installing $mod $version"
+    if test -f $version_file; then
+      if test "$(cat $version_file)" != "$version"; then
+        log "outdated module $mod $(cat $version_file) (requested $version)"
+        log $update_message
+      else
+        log "already installed $mod $version"
+      fi
+    elif test "$version" != "master"; then
+      log "already installed $mod, but version is unknown"
+      log $update_message
     fi
+  else
+    log "installing $mod $version"
     mkdir -p $dest
     cd $dest \
       && $GET $url \
@@ -81,7 +90,8 @@ module() {
       && cd ../.. \
       && bin $mod \
       && build $mod \
-      && lib $mod $alias_as
+      && lib $mod $alias_as \
+      && echo "$version" > $version_file
   fi
 }
 

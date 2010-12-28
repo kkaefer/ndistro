@@ -1,4 +1,9 @@
 
+0.4.0 / 2010-12-28 
+==================
+
+  * Store a _.ndistro_module_version_ file to check currentness of the module [Konstantin Käfer]
+
 0.3.0 / 2010-12-22 
 ==================
 
