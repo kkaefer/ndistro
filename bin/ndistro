@@ -53,21 +53,19 @@ module() {
   local dest="$ROOT/modules/$mod"
   local version_file=$dest/.ndistro_module_version
   local url="https://github.com/$user/$mod/tarball/$version"
+  local update_message="update with $ rm -fr modules/$mod && ndistro"
   
   if test -d $dest; then
-    if test "$version" = "master"; then
-      log "outdated module $mod (master may have changed)"
-      log " ==> run rm -rf modules/$mod and re-run ndistro to update"
-    elif test -f $version_file; then
+    if test -f $version_file; then
       if test "$(cat $version_file)" != "$version"; then
-        log "outdated module $mod $(cat $version_file) (requested is $version)"
-        log " ==> run rm -rf modules/$mod and re-run ndistro to update"
+        log "outdated module $mod $(cat $version_file) (requested $version)"
+        log $update_message
       else
         log "already installed $mod $version"
       fi
-    else
-      log "already installed $mod, but version is UNKOWN"
-      log " ==> run rm -rf modules/$mod and re-run ndistro to update"
+    elif test "$version" != "master"; then
+      log "already installed $mod, but version is unknown"
+      log $update_message
     fi
   else
     log "installing $mod $version"
