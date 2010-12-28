@@ -14,12 +14,13 @@ DIR=${0%/*}
 ROOT=$(pwd)
 BIN_URL="http://github.com/visionmedia/nodes/raw/master"
 GET=
+GET_CMD=
 
 # wget support
-which wget > /dev/null && GET="wget -q -O-"
+which wget > /dev/null && GET="wget -q -O-" && GET_CMD="wget"
 
 # curl support
-which curl > /dev/null && GET="curl -# -L"
+which curl > /dev/null && GET="curl -# -L" && GET_CMD="curl"
 
 #
 # Exit with the given <msg ...>
@@ -39,6 +40,19 @@ test -z "$GET" && abort "curl or wget required"
 
 log() {
   echo "... $@"
+}
+#
+# Retrieves the URL and returns the HTTP status code
+#
+
+http_code() {
+  local result=
+  if test "$GET_CMD" = "curl"; then
+    result=$(curl -L -I -w %{http_code} --silent -o /dev/null "$1")
+  else
+    result=$(wget -q --no-check-certificate --spider -S "$1" 2>&1 | sed -n -e 's/^  HTTP\/1\.[01] \([0-9]*\) .*$/\1/p')
+  fi
+  return $result
 }
 
 #
@@ -152,7 +166,8 @@ install_node() {
   if ! test -f $binary; then
     local url="$BIN_URL/$version-$machine"
 
-    if [ $($GET $url -I -w %{http_code} --silent -o /dev/null) = "200" ]; then
+    http_code $url
+    if [ $? -eq 200 ]; then
       log "downloading node-$version-$machine" && \
       $GET $url > $binary
     else
