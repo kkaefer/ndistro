@@ -7,7 +7,13 @@ depending on large programs. To contribute a node binary head over to [nodes](ht
 
 ## Installation
 
+curl:
+
      $ cd /usr/local/bin && curl https://github.com/visionmedia/ndistro/raw/master/install | sh
+
+npm:
+
+    $ npm install ndistro
 
 ## Example distribution
 
